@@ -6,6 +6,11 @@ public class ExpressionEvaluator {
     private Stack<String> operators = new Stack<String>();
     private Stack<Double> operands = new Stack<Double>();
 
+    private boolean checkSqrt(String s, int i){
+        return s.substring(i,i+3).equals("sqrt");
+    }
+
+
     public Double evaluate(String s){
         for(int i = 0; i < s.length(); i++){
             if(s.charAt(i) == '(');
@@ -13,7 +18,7 @@ public class ExpressionEvaluator {
             else if(s.charAt(i) == '-') operators.push("-");
             else if(s.charAt(i) == '*') operators.push("*");
             else if(s.charAt(i) == '/') operators.push("/");
-            else if(s.charAt(i) == 's' && provjeraSqrt(s, i)) {operators.push("sqrt");i+=3;}
+            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt");i+=3;}
             else if(s.charAt(i) == ')') {
                 String op = operators.pop();
                 double v = operands.pop();
