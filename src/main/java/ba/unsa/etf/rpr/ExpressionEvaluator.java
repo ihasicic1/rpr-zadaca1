@@ -37,7 +37,7 @@ public class ExpressionEvaluator {
                 else if(op.equals("/")) v = operands.pop() / v;
                 else if(op.equals("sqrt")) v = Math.sqrt(v);
                 operands.push(v);
-            }else operands.push(Double.parseDouble(s.substring(i,numberLength(s,i))));
+            }else operands.push(Double.parseDouble(String.valueOf((s.substring(i, numberLength(s, i))).length())));
         }
         return operands.pop();
     }

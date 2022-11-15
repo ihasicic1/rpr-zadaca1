@@ -1,9 +1,16 @@
 package ba.unsa.etf.rpr;
 
-public class App 
+import java.util.Scanner;
+
+public class App
 {
     public static void main( String[] args )
     {
-        System.out.println( "Hello World!" );
+        System.out.println( "Unesite izraz: " );
+        String s = new String();
+        Scanner ulaz = new Scanner(System.in);
+        s = ulaz.nextLine();
+        ExpressionEvaluator izraz = new ExpressionEvaluator();
+        System.out.println(izraz.evaluate(s));
     }
 }
