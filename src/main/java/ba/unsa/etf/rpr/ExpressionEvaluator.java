@@ -7,15 +7,15 @@ public class ExpressionEvaluator {
     private Stack<Double> operands = new Stack<Double>();
 
     private boolean checkSqrt(String s, int i){
-        return s.substring(i,i+3).equals("sqrt");
+        return s.substring(i, i+4).equals("sqrt");
     }
 
-    private int numberLength(String s, int i){
+    public static int numberLength(String s, int i){
         int counter = 0;
         for(int j = i; j < s.length(); j++){
-            if((s.charAt(i) >= '0' && s.charAt(i) <= '9') || s.charAt(i)=='.'){
-                counter++;
-            }else break;
+            if(s.charAt(j) == ' ') break;
+            counter++;
+
         }
         return counter;
     }
@@ -27,7 +27,7 @@ public class ExpressionEvaluator {
             else if(s.charAt(i) == '-') operators.push("-");
             else if(s.charAt(i) == '*') operators.push("*");
             else if(s.charAt(i) == '/') operators.push("/");
-            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt");i+=3;}
+            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt"); i += 4;}
             else if(s.charAt(i) == ')') {
                 String op = operators.pop();
                 double v = operands.pop();
@@ -37,7 +37,12 @@ public class ExpressionEvaluator {
                 else if(op.equals("/")) v = operands.pop() / v;
                 else if(op.equals("sqrt")) v = Math.sqrt(v);
                 operands.push(v);
-            }else operands.push(Double.parseDouble(String.valueOf((s.substring(i, numberLength(s, i))).length())));
+            }else if(s.charAt(i) == ' ');
+            else {
+                int pomak = numberLength(s,i);
+                operands.push(Double.parseDouble(s.substring(i,i + pomak)));
+                i += pomak;
+            }
         }
         return operands.pop();
     }
