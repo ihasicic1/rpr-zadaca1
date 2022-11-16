@@ -3,14 +3,14 @@ package ba.unsa.etf.rpr;
 import java.util.Stack;
 
 public class ExpressionEvaluator {
-    private Stack<String> operators = new Stack<String>();
-    private Stack<Double> operands = new Stack<Double>();
+    private final Stack<String> operators = new Stack<>();
+    private final Stack<Double> operands = new Stack<>();
 
     private boolean checkSqrt(String s, int i){
         return s.substring(i, i+4).equals("sqrt");
     }
 
-    public static int numberLength(String s, int i){
+    protected static int numberLength(String s, int i){
         int counter = 0;
         for(int j = i; j < s.length(); j++){
             if(s.charAt(j) == ' ') break;
@@ -43,8 +43,13 @@ public class ExpressionEvaluator {
             }else if(s.charAt(i) == ' ');
             else {
                 int pomak = numberLength(s,i);
-                operands.push(Double.parseDouble(s.substring(i, i + pomak)));
-                i = i + pomak;
+                try{
+                    operands.push(Double.parseDouble(s.substring(i, i + pomak)));
+                    i = i + pomak;
+                }catch(NumberFormatException e){
+                    throw new RuntimeException("Input not valid!");
+                }
+
             }
         }
         return operands.pop();

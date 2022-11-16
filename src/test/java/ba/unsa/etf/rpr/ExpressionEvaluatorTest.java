@@ -1,13 +1,9 @@
 package ba.unsa.etf.rpr;
 
 import org.junit.jupiter.api.Test;
-
-import java.util.Stack;
-
-import static ba.unsa.etf.rpr.ExpressionEvaluator.numberLength;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ExpressionEvaluatorTest {
+class ExpressionEvaluatorTest extends ExpressionEvaluator{
 
     @Test
     void numberLengthTest() {
@@ -45,9 +41,23 @@ class ExpressionEvaluatorTest {
 
     @Test
     void evaluateSubtractionTest(){
-        String s = (" ( 4.25 - 2.69 )");
+        String s = ("( 4.25 - 2.69 )");
         ExpressionEvaluator e = new ExpressionEvaluator();
         assertEquals(1.56, e.evaluate(s));
+    }
+
+    @Test
+    void evaluateMultiplicationTest(){
+        String s = ("( 4.25 * 2.69 )");
+        ExpressionEvaluator e = new ExpressionEvaluator();
+        assertEquals(11.4325, e.evaluate(s));
+    }
+
+    @Test
+    void inputNotValidTest(){
+        String s = ("(5+ 2 )");
+        ExpressionEvaluator e = new ExpressionEvaluator();
+        assertThrows(RuntimeException.class, () -> e.evaluate(s), "Input not valid");
     }
 
 }
