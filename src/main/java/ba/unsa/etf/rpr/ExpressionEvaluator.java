@@ -27,7 +27,7 @@ public class ExpressionEvaluator {
             else if(s.charAt(i) == '-') operators.push("-");
             else if(s.charAt(i) == '*') operators.push("*");
             else if(s.charAt(i) == '/') operators.push("/");
-            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt"); i += 4;}
+            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt"); i = i + 4;}
             else if(s.charAt(i) == ')') {
                 String op = operators.pop();
                 double v = operands.pop();
@@ -40,8 +40,8 @@ public class ExpressionEvaluator {
             }else if(s.charAt(i) == ' ');
             else {
                 int pomak = numberLength(s,i);
-                operands.push(Double.parseDouble(s.substring(i,i + pomak)));
-                i += pomak;
+                operands.push(Double.parseDouble(s.substring(i, i + pomak)));
+                i = i + pomak;
             }
         }
         return operands.pop();
