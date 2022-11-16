@@ -34,7 +34,10 @@ public class ExpressionEvaluator {
                 if(op.equals("+")) v = operands.pop() + v;
                 else if(op.equals("-") ) v = operands.pop() - v;
                 else if(op.equals("*")) v = operands.pop() * v;
-                else if(op.equals("/")) v = operands.pop() / v;
+                else if(op.equals("/")) {
+                    if(v == 0) throw new RuntimeException("Division by zero not possible");
+                    v = operands.pop() / v;
+                }
                 else if(op.equals("sqrt")) v = Math.sqrt(v);
                 operands.push(v);
             }else if(s.charAt(i) == ' ');

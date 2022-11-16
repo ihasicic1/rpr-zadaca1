@@ -4,35 +4,50 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Stack;
 
+import static ba.unsa.etf.rpr.ExpressionEvaluator.numberLength;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ExpressionEvaluatorTest {
 
     @Test
     void numberLengthTest() {
-        String s = "( 132.95 + 2.7 )";
-        Stack<Double> brojevi = new Stack<>();
-        for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == '(');
-            else if(s.charAt(i) == ' ');
-            else if(s.charAt(i) == '+');
-            else if(s.charAt(i) == ')');
-            else{
-                int shift = ExpressionEvaluator.numberLength(s,i);
-                String rez = s.substring(i,i + shift);
-                brojevi.push(Double.parseDouble(rez));
-                i += shift;
-            }
-        }
-        assertEquals("132.95 2.7", ("132.95 2.7"));
+        String s = "132.29";
+        assertEquals(6 , numberLength(s,0));
     }
 
     @Test
     void evaluateTest() {
-        String s = "( 1.5 + 2.7 )";
+        String s = " ( 1.5 + 2.7 ) ";
         ExpressionEvaluator expression = new ExpressionEvaluator();
-        System.out.println(expression.evaluate(s));
-        assertEquals(4.2, 4.2);
+        assertEquals(4.2, expression.evaluate(s));
+    }
+
+    @Test
+    void evaluateDivisionWithZeroTest(){
+        String s = " ( 5 / 0 ) ";
+        ExpressionEvaluator expression = new ExpressionEvaluator();
+        assertThrows(RuntimeException.class, () -> expression.evaluate(s), "Division by zero not possible");
+    }
+
+    @Test
+    void evaluateDivisionTest(){
+        String s = "( 17 / 4 )";
+        ExpressionEvaluator expression = new ExpressionEvaluator();
+        assertEquals(4.25, expression.evaluate(s));
+    }
+
+    @Test
+    void evaluateAdditionTest(){
+        String s = "( 14.235 + 54.549 )";
+        ExpressionEvaluator expression = new ExpressionEvaluator();
+        assertEquals(68.784, Math.round(expression.evaluate(s)*1000.)/1000.);
+    }
+
+    @Test
+    void evaluateSubtractionTest(){
+        String s = (" ( 4.25 - 2.69 )");
+        ExpressionEvaluator e = new ExpressionEvaluator();
+        assertEquals(1.56, e.evaluate(s));
     }
 
 }

@@ -58,7 +58,7 @@
                 <addClasspath>true</addClasspath>
                 <classpathPrefix>libs/</classpathPrefix>
                 <mainClass>
-                  com.baeldung.executable.ExecutableMavenJar
+                  ba.unsa.etf.rpr.App
                 </mainClass>
               </manifest>
             </archive>
