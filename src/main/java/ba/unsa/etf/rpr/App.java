@@ -1,4 +1,9 @@
 package ba.unsa.etf.rpr;
+
+/**
+ * Console application which recieves string and prints out evaluation of that string
+ * using Dijkstra algorithm
+ */
 public class App {
     public static void main( String[] args ) {
         String s = args[0];
