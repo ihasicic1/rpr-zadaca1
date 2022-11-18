@@ -2,8 +2,7 @@ package ba.unsa.etf.rpr;
 
 public class App {
     public static void main( String[] args ) {
-        //String s = args[0];
-        String s = ("( 2 + 3 + sqrt 9 )");
+        String s = args[0];
         ExpressionEvaluator expression = new ExpressionEvaluator();
         if(s.isEmpty()) System.out.println("Empty string");
         else {

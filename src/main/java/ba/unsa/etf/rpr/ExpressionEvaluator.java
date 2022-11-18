@@ -3,7 +3,7 @@ package ba.unsa.etf.rpr;
 import java.util.Stack;
 
 /**
- * class that implements Dijkstra algorithm
+ * Dijkstra algorithm implementation class
  */
 public class ExpressionEvaluator {
     private final Stack<String> operators = new Stack<>();
@@ -13,10 +13,10 @@ public class ExpressionEvaluator {
      * method for checking if input string has operator sqrt
      * @param s
      * @param i
-     * @return s.substring(i, i+4).equals("sqrt")
+     * @return s.startsWith("sqrt", i);
      */
     private boolean checkSqrt(String s, int i){
-        return s.substring(i, i+4).equals("sqrt");
+        return s.startsWith("sqrt", i);
     }
 
     /**
@@ -41,13 +41,14 @@ public class ExpressionEvaluator {
      */
     public Double evaluate(String s){
         for(int i = 0; i < s.length(); i++){
-            if(s.charAt(i) == '(');
-            else if(s.charAt(i) == '+') operators.push("+");
-            else if(s.charAt(i) == '-') operators.push("-");
-            else if(s.charAt(i) == '*') operators.push("*");
-            else if(s.charAt(i) == '/') operators.push("/");
-            else if(s.charAt(i) == 's' && checkSqrt(s, i)) {operators.push("sqrt"); i = i + 4;} /* if "s", check if it equals "sqrt", increase i by four */
-            else if(s.charAt(i) == ')') {
+
+            if(s.charAt(i) == '(' && s.charAt(i+1) == ' ');
+            else if(s.charAt(i) == '+' && s.charAt(i+1) == ' ') operators.push("+");
+            else if(s.charAt(i) == '-' && s.charAt(i+1) == ' ') operators.push("-");
+            else if(s.charAt(i) == '*' && s.charAt(i+1) == ' ') operators.push("*");
+            else if(s.charAt(i) == '/' && s.charAt(i+1) == ' ') operators.push("/");
+            else if(s.charAt(i) == 's' && checkSqrt(s,i)  && s.charAt(i+4) == ' ') {operators.push("sqrt"); i = i + 4;} /* if "s", check if it equals "sqrt", increase i by four */
+            else if(s.charAt(i) == ')' && s.charAt(i-1) == ' ') {
                 String op = operators.pop();
                 double v = operands.pop();
                 if(op.equals("+")) v = operands.pop() + v;
@@ -69,9 +70,9 @@ public class ExpressionEvaluator {
                 }catch(NumberFormatException e){
                     throw new RuntimeException("Input not valid!");
                 }
-
             }
         }
+        if(operators.size() > 0 || operands.size() != 1) throw new RuntimeException("Input not valid");
         return operands.pop();
     }
 
