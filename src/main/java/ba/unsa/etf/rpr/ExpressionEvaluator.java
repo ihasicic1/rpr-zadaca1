@@ -1,5 +1,6 @@
 package ba.unsa.etf.rpr;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 /**
@@ -40,17 +41,25 @@ public class ExpressionEvaluator {
      * @return operands.pop()
      */
     public Double evaluate(String s){
+        int leftCounter = 0, rightCounter = 0;
         for(int i = 0; i < s.length(); i++){
-
-            if(s.charAt(i) == '(' && s.charAt(i+1) == ' ');
+            if(s.charAt(i) == '(' && s.charAt(i+1) == ' ') leftCounter = leftCounter + 1;
             else if(s.charAt(i) == '+' && s.charAt(i+1) == ' ') operators.push("+");
             else if(s.charAt(i) == '-' && s.charAt(i+1) == ' ') operators.push("-");
             else if(s.charAt(i) == '*' && s.charAt(i+1) == ' ') operators.push("*");
             else if(s.charAt(i) == '/' && s.charAt(i+1) == ' ') operators.push("/");
             else if(s.charAt(i) == 's' && checkSqrt(s,i)  && s.charAt(i+4) == ' ') {operators.push("sqrt"); i = i + 4;} /* if "s", check if it equals "sqrt", increase i by four */
             else if(s.charAt(i) == ')' && s.charAt(i-1) == ' ') {
-                String op = operators.pop();
-                double v = operands.pop();
+                rightCounter = rightCounter + 1;
+                String op;
+                double v;
+                try{
+                    op = operators.pop();
+                    v = operands.pop();
+                }catch (EmptyStackException ex){
+                    throw new RuntimeException("Input not valid!");
+                }
+
                 if(op.equals("+")) v = operands.pop() + v;
                 else if(op.equals("-") ) v = operands.pop() - v;
                 else if(op.equals("*")) v = operands.pop() * v;
@@ -72,7 +81,7 @@ public class ExpressionEvaluator {
                 }
             }
         }
-        if(operators.size() > 0 || operands.size() != 1) throw new RuntimeException("Input not valid");
+        if(operators.size() > 0 || operands.size() != 1 || leftCounter != rightCounter) throw new RuntimeException("Input not valid!");
         return operands.pop();
     }
 
