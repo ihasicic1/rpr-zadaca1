@@ -12,7 +12,7 @@ class ExpressionEvaluatorTest extends ExpressionEvaluator{
 
     @Test
     void evaluateTest() {
-        String s = " ( 1.5 + 2.7 ) ";
+        String s = "( 1.5 + 2.7 )";
         ExpressionEvaluator expression = new ExpressionEvaluator();
         assertEquals(4.2, expression.evaluate(s));
     }
