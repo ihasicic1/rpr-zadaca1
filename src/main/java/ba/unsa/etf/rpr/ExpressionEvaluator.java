@@ -28,7 +28,7 @@ public class ExpressionEvaluator {
     protected static int numberLength(String s, int i){
         int counter = 0;
         for(int j = i; j < s.length(); j++){
-            if(s.charAt(j) == ' ') break;  /* skips spaces, counts digits and dots */
+            if(s.charAt(j) == ' ') break;  /* counts digits and dots */
             counter++;
         }
         return counter;
@@ -42,14 +42,16 @@ public class ExpressionEvaluator {
     public Double evaluate(String s){
         int leftCounter = 0, rightCounter = 0;
         for(int i = 0; i < s.length(); i++){
+            if(s.charAt(0) != '(') throw new RuntimeException("Input not valid!");
             if(s.charAt(i) == '(' && s.charAt(i+1) == ' ') leftCounter = leftCounter + 1;
             else if(s.charAt(i) == '+' && s.charAt(i+1) == ' ') operators.push("+");
             else if(s.charAt(i) == '-' && s.charAt(i+1) == ' ') operators.push("-");
             else if(s.charAt(i) == '*' && s.charAt(i+1) == ' ') operators.push("*");
             else if(s.charAt(i) == '/' && s.charAt(i+1) == ' ') operators.push("/");
-            else if(s.charAt(i) == 's' && checkSqrt(s,i)  && s.charAt(i+4) == ' ') {operators.push("sqrt"); i = i + 4;} /* if "s", check if it equals "sqrt", increase i by four */
+            else if(s.charAt(i) == 's' && checkSqrt(s,i)  && s.charAt(i+4) == ' ' && s.charAt(i+5) == '(') {operators.push("sqrt"); i = i + 4;} /* if "s", check if it equals "sqrt", increase i by four */
             else if(s.charAt(i) == ')' && s.charAt(i-1) == ' ') {
                 rightCounter = rightCounter + 1;
+                if(operators.isEmpty()) continue;
                 String op;
                 double v;
                 try{
@@ -58,7 +60,6 @@ public class ExpressionEvaluator {
                 }catch (EmptyStackException ex){
                     throw new RuntimeException("Input not valid!");
                 }
-
                 if(op.equals("+")) v = operands.pop() + v;
                 else if(op.equals("-") ) v = operands.pop() - v;
                 else if(op.equals("*")) v = operands.pop() * v;
